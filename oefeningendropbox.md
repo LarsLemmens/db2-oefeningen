@@ -1413,6 +1413,20 @@ WINDOW w1 AS ( ORDER BY diameter)
 ORDER BY 1
 ```
 
+kan ook zo
+
+```sql
+set search_path to ruimtereizen;
+select diameter,
+count(*) as f,
+sum(count(*)) over(order by diameter) as cf,
+((count(*)::float / (select count(*) from hemelobjecten))*100)::decimal(5,2) as rf,
+(((sum(count(*)) over(order by diameter))::float / (select count(*) from hemelobjecten))*100)::decimal(5,2) as crf
+from hemelobjecten
+group by diameter
+order by 1
+```
+
 ## 3. 
 
 > Geef voor elke reis het aantal klanten waarvan de naam niet met een 'G' begint en waarvan de periode van de geboortedatum van de klant tot de vertrekdatum van de reis overlapt met de huidige datum en 50 jaar verder (gebruik hiervoor de gepaste operator: OVERLAPS). 
